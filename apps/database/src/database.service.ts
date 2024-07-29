@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
 import { SignUpDto } from './dto/signup.dto';
 
@@ -8,14 +8,9 @@ export class DatabaseService {
 
   }
   create(signUpDto: SignUpDto) {
-    try {
-      const user = this.prisma.user.create({
-        data: signUpDto
-      });
-      return user
-    } catch (error) {
-      return {status: 500, message: "Serverda xatolik", error: error}
-    }
-
+    const user = this.prisma.user.create({
+      data: signUpDto
+    });
+    return user
   }
 }

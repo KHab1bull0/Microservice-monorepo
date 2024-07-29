@@ -10,6 +10,15 @@ export class DatabaseController {
 
   @Post('signup')
   signUp(@Body() signupDto: SignUpDto) {
-    return this.databaseService.create(signupDto)
+    try {
+
+      return this.databaseService.create(signupDto)
+
+    } catch (error) {
+      const n = { status: 501,  error: error}
+      console.log(1, n);
+      return n
+      
+    }
   }
 }

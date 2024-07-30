@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { DatabaseService } from './database.service';
 import { SignUpDto } from './dto/signup.dto';
+import { LoginDto } from './dto/login.dto';
 
 
 
@@ -9,16 +10,27 @@ export class DatabaseController {
   constructor(private readonly databaseService: DatabaseService) { }
 
   @Post('signup')
-  signUp(@Body() signupDto: SignUpDto) {
+  async signUp(@Body() signupDto: SignUpDto) {
     try {
-
-      return this.databaseService.create(signupDto)
-
-    } catch (error) {
-      const n = { status: 501,  error: error}
-      console.log(1, n);
-      return n
-      
+      return await this.databaseService.create(signupDto)
+    } catch (e) {
+      return { status: 500, error: e }
     }
   }
+
+
+  @Post("signin")
+  async signin(@Body() loginDto: LoginDto) {
+    try {
+      return await this.databaseService.login(loginDto);
+    } catch (e) {
+      return new HttpException("Database login qilishda xatolik", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @Post("findByEmail")
+  async findOne(@Body() loginDto: LoginDto) {
+    return await this.databaseService.findOne(loginDto);
+  }
+  
 }

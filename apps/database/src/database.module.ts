@@ -4,7 +4,9 @@ import { DatabaseService } from './database.service';
 import { PrismaService } from './prisma.service';
 
 @Module({
-  imports: [],
+  imports: [
+    
+  ],
   controllers: [DatabaseController],
   providers: [DatabaseService, PrismaService],
 })

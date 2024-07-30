@@ -1,10 +1,20 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { JwtModule } from '@nestjs/jwt';
+
 
 @Module({
-  imports: [],
-  controllers: [UserController],
-  providers: [UserService],
+  imports: [
+    JwtModule.register({
+      global: true
+    })
+  ],
+  controllers: [
+    UserController
+  ],
+  providers: [
+    UserService,
+  ],
 })
-export class UserModule {}
+export class UserModule { }
